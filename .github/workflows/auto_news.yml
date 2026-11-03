@@ -1,0 +1,38 @@
+name: AI Auto News Generator
+
+on:
+  schedule:
+    # Berjalan otomatis setiap 4 jam
+    - cron: '0 */4 * * *'
+  # Memungkinkan dijalankan manual kapan saja via tombol Run Workflow
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          pip install google-genai
+
+      - name: Run Auto News Script
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          python bot.py
+
+      - name: Commit & Push Update
+        run: |
+          git config --global user.name "RuangLapangan Bot"
+          git config --global user.email "bot@ruanglapangan.local"
+          git add articles.json
+          git commit -m "Auto-update: Artikel bola baru oleh Gemini AI [skip ci]" || exit 0
+          git push
