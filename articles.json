@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "id": 1,
+    "title": "Duel Panas Derby Akhir Pekan: Taktik Bertahan Kontra Serangan Kilat",
+    "content": "Pertandingan akhir pekan ini menyajikan pertarungan sengit di papan atas klasemen. Kedua pelatih diprediksi menurunkan susunan formasi terbaik demi mengamankan tiga poin krusial.\n\nFokus utama pertandingan berada di lini tengah, di mana penguasaan bola dan transisi cepat dari bertahan ke menyerang akan menjadi kunci penentu kemenangan.",
+    "img": "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=700&auto=format&fit=crop&q=80",
+    "date": "03 Nov 2026, 10:00 WIB",
+    "source_url": "https://example.com/berita-1"
+  },
+  {
+    "id": 2,
+    "title": "Perburuan Gelar Juara Memanas, Tiga Poin Penentu Posisi Puncak",
+    "content": "Persaingan perebutan takhta juara semakin tidak terduga. Selisih poin yang sangat tipis di antara tim-tim papan atas memaksa setiap kubu bermain tanpa celah kesalahan.\n\nKondisi fisik pemain dan kedalaman skuad cadangan diperkirakan menjadi pembeda utama dalam konsistensi performa hingga pengujung musim.",
+    "img": "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=700&auto=format&fit=crop&q=80",
+    "date": "03 Nov 2026, 09:30 WIB",
+    "source_url": "https://example.com/berita-2"
+  }
+]
