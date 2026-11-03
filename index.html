@@ -4,11 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RuangLapangan - Kabar & Analisis Sepak Bola</title>
-  <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
-  <link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css)" />
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans antialiased flex flex-col min-h-screen">
 
+  <!-- Header -->
   <header class="bg-emerald-800 text-white sticky top-0 z-50 shadow-md">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center space-x-2.5">
@@ -21,14 +24,17 @@
     </div>
   </header>
 
+  <!-- Konten Utama -->
   <main class="max-w-6xl mx-auto px-4 py-8 flex-grow w-full">
     <div class="flex items-center justify-between mb-6">
       <h2 class="text-xl font-extrabold border-l-4 border-emerald-600 pl-3 text-slate-900">Ulasan & Kabar Lapangan</h2>
-      <span class="text-xs text-slate-500">Dianalisis & Ditulis Mandiri oleh AI</span>
+      <span class="text-xs text-slate-500 font-medium">Dianalisis & Ditulis Mandiri oleh AI</span>
     </div>
 
-    <!-- Container Grid Artikel -->
+    <!-- Grid Artikel -->
     <div id="articles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="bg-white rounded-xl shadow-sm p-4 animate-pulse h-64 border border-slate-200"></div>
+      <div class="bg-white rounded-xl shadow-sm p-4 animate-pulse h-64 border border-slate-200"></div>
       <div class="bg-white rounded-xl shadow-sm p-4 animate-pulse h-64 border border-slate-200"></div>
     </div>
   </main>
@@ -46,6 +52,7 @@
     </div>
   </div>
 
+  <!-- Footer -->
   <footer class="bg-slate-900 text-slate-400 text-center py-6 text-xs mt-12">
     <p>&copy; 2026 RuangLapangan. Menampilkan artikel sepak bola yang ditulis ulang secara independen.</p>
   </footer>
@@ -56,12 +63,13 @@
     async function loadArticles() {
       const grid = document.getElementById("articles-grid");
       try {
-        // Ambil file articles.json yang digenerate oleh GitHub Actions
         const res = await fetch(`articles.json?t=${Date.now()}`);
-        if (!res.ok) throw new Error("Belum ada file articles.json");
+        if (!res.ok) throw new Error("Gagal memuat file");
         articlesData = await res.json();
 
-        if (articlesData.length === 0) throw new Error("Belum ada artikel");
+        if (!Array.isArray(articlesData) || articlesData.length === 0) {
+          throw new Error("Artikel kosong");
+        }
 
         grid.innerHTML = articlesData.map((item, idx) => `
           <article class="bg-white rounded-xl shadow-sm hover:shadow-md transition overflow-hidden flex flex-col justify-between border border-slate-200">
@@ -86,7 +94,7 @@
           <div class="col-span-full text-center py-12 bg-white rounded-xl border border-slate-200">
             <i class="fa-solid fa-robot text-3xl text-emerald-600 mb-3"></i>
             <p class="text-slate-800 font-semibold text-sm">Bot AI Sedang Menyiapkan Artikel Pertama...</p>
-            <p class="text-slate-500 text-xs mt-1">Jalankan workflow 'AI Auto News Generator' di tab Actions GitHub untuk menerbitkan sekarang.</p>
+            <p class="text-slate-500 text-xs mt-1">Jalankan workflow 'AI Auto News Generator' di tab Actions GitHub untuk menerbitkan.</p>
           </div>
         `;
       }
