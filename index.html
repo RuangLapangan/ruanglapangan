@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RuangLapangan - Kabar & Analisis Sepak Bola</title>
+  <title>RuangLapangan - Berita Sepak Bola</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Font Awesome Icons -->
@@ -11,7 +11,7 @@
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans antialiased flex flex-col min-h-screen">
 
-  <!-- Header & Navigasi -->
+  <!-- Header -->
   <header class="bg-emerald-800 text-white sticky top-0 z-50 shadow-md">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center space-x-2.5">
@@ -24,5 +24,126 @@
     </div>
   </header>
 
-  <!-- Running Text / Breaking News -->
-  <div class="bg-emerald-950 text-emerald-200 text-xs py-2 px-4 shadow-inner border-b border-emerald-90
+  <!-- Breaking News Bar -->
+  <div class="bg-emerald-950 text-emerald-200 text-xs py-2 px-4 border-b border-emerald-900">
+    <div class="max-w-6xl mx-auto flex items-center gap-3 overflow-hidden">
+      <span class="bg-emerald-500 text-slate-950 font-bold uppercase px-2 py-0.5 rounded text-[10px] tracking-wide shrink-0">TERKINI</span>
+      <p id="ticker" class="truncate font-medium text-emerald-100">Memuat kabar terkini sepak bola...</p>
+    </div>
+  </div>
+
+  <!-- Konten Utama -->
+  <main class="max-w-6xl mx-auto px-4 py-6 flex-grow w-full">
+    <div class="flex items-center justify-between mb-5">
+      <h2 class="text-lg font-bold border-l-4 border-emerald-600 pl-2 text-slate-900">Kabar Lapangan</h2>
+      <span id="status" class="text-xs text-slate-500 font-medium">Memuat data...</span>
+    </div>
+
+    <!-- Grid Berita -->
+    <div id="news-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="bg-white rounded-xl shadow-sm p-4 animate-pulse h-64 border border-slate-200"></div>
+      <div class="bg-white rounded-xl shadow-sm p-4 animate-pulse h-64 border border-slate-200"></div>
+      <div class="bg-white rounded-xl shadow-sm p-4 animate-pulse h-64 border border-slate-200"></div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-400 text-center py-6 text-xs mt-12 border-t border-slate-800">
+    <p>&copy; 2026 RuangLapangan. Portal Berita Sepak Bola Terkini.</p>
+  </footer>
+
+  <script>
+    // Berita cadangan agar halaman tidak pernah kosong jika koneksi API terhambat
+    const FALLBACK_NEWS = [
+      {
+        title: "Perburuan Gelar Liga Berjalan Sengit, Persaingan Papan Atas Kian Memanas",
+        pubDate: new Date().toISOString(),
+        link: "https://www.google.com/search?q=berita+sepak+bola",
+        thumbnail: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=700&auto=format&fit=crop&q=80"
+      },
+      {
+        title: "Jelang Laga Penentuan, Pelatih Fokus Matangkan Strategi Transisi Serangan",
+        pubDate: new Date().toISOString(),
+        link: "https://www.google.com/search?q=jadwal+sepak+bola",
+        thumbnail: "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=700&auto=format&fit=crop&q=80"
+      },
+      {
+        title: "Bursa Transfer: Klub-Klub Elit Mulai Dekati Pemain Bintang Incaran",
+        pubDate: new Date().toISOString(),
+        link: "https://www.google.com/search?q=transfer+sepak+bola",
+        thumbnail: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?w=700&auto=format&fit=crop&q=80"
+      }
+    ];
+
+    const DEFAULT_IMG = "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=700&auto=format&fit=crop&q=80";
+
+    function renderCards(items) {
+      const container = document.getElementById("news-container");
+      container.innerHTML = items.map(item => {
+        const d = new Date(item.pubDate);
+        const formattedDate = isNaN(d) ? "Terbaru" : d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+        const img = item.thumbnail || DEFAULT_IMG;
+
+        return `
+          <article class="bg-white rounded-xl shadow-sm hover:shadow-md transition duration-200 overflow-hidden flex flex-col justify-between border border-slate-200">
+            <div>
+              <div class="h-44 w-full overflow-hidden bg-slate-200">
+                <img src="${img}" alt="${item.title}" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='${DEFAULT_IMG}';" />
+              </div>
+              <div class="p-4">
+                <p class="text-[11px] text-emerald-700 font-semibold mb-1 flex items-center gap-1">
+                  <i class="fa-regular fa-calendar"></i> ${formattedDate}
+                </p>
+                <h3 class="font-bold text-slate-800 text-sm md:text-base leading-snug line-clamp-2 hover:text-emerald-700">
+                  <a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.title}</a>
+                </h3>
+              </div>
+            </div>
+            <div class="px-4 pb-4 pt-1">
+              <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-xs font-bold text-emerald-700 hover:text-emerald-900 gap-1.5">
+                Baca Selengkapnya <i class="fa-solid fa-arrow-right text-[10px]"></i>
+              </a>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    async function fetchNews() {
+      const ticker = document.getElementById("ticker");
+      const status = document.getElementById("status");
+      const refreshIcon = document.getElementById("refresh-icon");
+
+      status.innerText = "Memperbarui...";
+      if (refreshIcon) refreshIcon.classList.add("fa-spin");
+
+      // Sumber RSS Antara Sepak Bola via RSS2JSON
+      const targetRss = encodeURIComponent("https://www.antaranews.com/rss/sepak-bola.xml");
+      const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${targetRss}`;
+
+      try {
+        const res = await fetch(apiUrl);
+        const data = await res.json();
+
+        if (data.status === "ok" && data.items && data.items.length > 0) {
+          ticker.innerText = data.items[0].title;
+          status.innerText = `Terakhir update: ${new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}`;
+          renderCards(data.items);
+        } else {
+          throw new Error("Feed kosong");
+        }
+      } catch (err) {
+        console.warn("Gagal mengambil live feed, menampilkan data fallback:", err);
+        status.innerText = "Mode Offline / Cadangan";
+        ticker.innerText = FALLBACK_NEWS[0].title;
+        renderCards(FALLBACK_NEWS);
+      } finally {
+        if (refreshIcon) refreshIcon.classList.remove("fa-spin");
+      }
+    }
+
+    // Eksekusi awal saat dibuka
+    fetchNews();
+  </script>
+</body>
+</html>
